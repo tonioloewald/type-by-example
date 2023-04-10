@@ -1,5 +1,7 @@
 # type by example
 
+[github](https://github.com/tonioloewald/type-by-example) | [npm](https://www.npmjs.com/package/type-by-example)
+
 The goal of this library is to provide flexible, intuitive, strong type checking that is:
 
 - just javascript
