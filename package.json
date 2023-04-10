@@ -1,6 +1,6 @@
 {
   "name": "type-by-example",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "strong and flexible runtime typechecking that's just javascript with types that are fully serializable",
   "source": "src/index.ts",
   "main": "dist/main.js",
@@ -13,6 +13,10 @@
     "types",
     "javascript"
   ],
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
   "author": "Tonio Loewald",
   "license": "MIT",
   "devDependencies": {
