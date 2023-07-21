@@ -7,9 +7,12 @@ The goal of this library is to provide flexible, intuitive, strong type checking
 - just javascript
 - serializable as JSON (so, e.g. services can tell you their type!)
 - incredibly simple and intuitive (most types can be specified using a correct example)
-- capable of very fine grained
-- is present at runtime
+- capable of very fine grained types (Note 1)
+- is present at runtime (Note 2)
 - allows you to essentially build typesafe "monadic" functions
+
+**Note 1**: e.g. string properties whose name starts with is[A-Z] are `boolean`
+**Note 2**: because in the real world, you don't get to update all the client code in lockstep with services
 
 ## Examples
 
