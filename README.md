@@ -118,7 +118,7 @@ You can specify an enum type simply using a bar-delimited sequence of JSON strin
 ### #int and #number
 
     specificTypeMatch('#int [0,10]', 5)          === true   // 0 ≤ 5 ≤ 10
-    specificTypeMatch('#int [0,\u221E]', -5)          === false  // -5 is less than 0
+    specificTypeMatch('#int [0,∞]', -5)          === false  // -5 is less than 0
     specificTypeMatch('#int [0', -5)             === false  // -5 is less than 0
     specificTypeMatch('#int', Math.PI)           === false  // Math.PI is not a whole number
     specificTypeMatch('#number (0,4)', Math.PI)  === true   // 0 < Math.PI < 4
@@ -229,28 +229,6 @@ gives the typeof the value passed unless it's an `Array` (in which case it retur
     describe(NaN) // 'NaN'
     describe(-Infinity) // 'number'
 
-## Notes on Performance
-
-I've done some rough performance testing of `typeSafe` and added a simple
-optimization. The test code simply performed an add operation 1,000,000
-times inline, wrapped in a function, wrapped in a trivial wrapper function, and
-using a `typeSafe` function.
-
-In essence, the overhead for typeSafe functions (on my recent, pretty fast,
-Windows laptop) is about 350ms/million calls checked by typeSafe.
-
-Note that many frameworks end up wrapping all your functions several times
-for various reasons, doing non-trivial work in the wrapper. In any event,
-if even _this_ much of an overhead is abhorrent, simply don't use typeSafe
-in performance critical situations, or call it outside a loop rather than inside.
-
-(E.g. if you're iterating across a lot of data in an array, typecheck a function
-that takes the array, not a function that processes all the elements -- matchType
-does not check every element of a large array.)
-
-The obvious place to use typeSafe functions is when communicating with services,
-and here any overhead is insignificant compared with network or I/O.
-
 ## Object Keys
 
 **Important Note**: key properties are evaluated in the order they
@@ -321,12 +299,12 @@ Or hell, enforce some variant of *Hungarian Notation*:
       ...
     }
 
-## Strongly Typed Functions
+## Typesafe Functions
 
 `typeSafe` adds run-time type-checking to functions, verifying the type of both
 their inputs and outputs:
 
-    import {typeSafe} from 'xinjs'
+    import {typeSafe} from 'type-by-example'
     const safeFunc = typeSafe(func, paramTypes, resultType, name)
 
 - `func` is the function you're trying to type-check.
@@ -361,6 +339,28 @@ typeSafe functions are intended to operate like
 so if you call `safe_f(safe_g(...))` and `safe_g` fails, `safe_f` will _short-circuit_ execution and
 return the error directly -- which should help with debugging and prevent code executing
 on data known to be bad.
+
+### Notes on Performance
+
+I've done some rough performance testing of `typeSafe` and added a simple
+optimization. The test code simply performed an add operation 1,000,000
+times inline, wrapped in a function, wrapped in a trivial wrapper function, and
+using a `typeSafe` function.
+
+In essence, the overhead for typeSafe functions (on my recent, pretty fast,
+Windows laptop) is about 350ms/million calls checked by typeSafe.
+
+Note that many frameworks end up wrapping all your functions several times
+for various reasons, doing non-trivial work in the wrapper. In any event,
+if even _this_ much of an overhead is abhorrent, simply don't use typeSafe
+in performance critical situations, or call it outside a loop rather than inside.
+
+(E.g. if you're iterating across a lot of data in an array, typecheck a function
+that takes the array, not a function that processes all the elements -- matchType
+does not check every element of a large array.)
+
+The obvious place to use typeSafe functions is when communicating with services,
+and here any overhead is insignificant compared with network or I/O.
 
 ## History
 
